@@ -1,14 +1,14 @@
 # chrome-site-blocker
-Quick and easy site blocker to help with infojunk
+##Quick and easy site blocker to help with infojunk
 
-To install:
+##**To install:**
 
 Save all files in a folder
 Open Chrome and go to chrome://extensions/
 Enable "Developer mode" (toggle in top-right)
 Click "Load unpacked" and select the folder
 
-To use:
+##**To use:**
 
 Click the extension icon
 Enter websites to block (e.g.: "youtube.com")
