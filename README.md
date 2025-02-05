@@ -13,3 +13,5 @@ To use:
 Click the extension icon
 Enter websites to block (e.g.: "youtube.com")
 Click any listed site to remove it
+
+Thanks to DeepSeek for writing it.
