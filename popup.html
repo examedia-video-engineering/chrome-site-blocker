@@ -2,16 +2,62 @@
 <html>
 <head>
   <style>
-    body { width: 250px; padding: 10px; }
-    input { width: 70%; padding: 5px; }
-    button { width: 25%; padding: 5px; }
-    div { margin-top: 10px; }
+    body { 
+      width: 300px; 
+      padding: 10px; 
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    input { 
+      width: 200px; 
+      margin-right: 5px;
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .domain { 
+      margin: 5px 0;
+      padding: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+    .remove-btn {
+      width: 24px;
+      height: 24px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .remove-btn:hover {
+      background: rgba(220, 53, 69, 0.2);
+    }
+    #add {
+      padding: 6px 12px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #add:hover {
+      background: #0b5ed7;
+    }
   </style>
 </head>
 <body>
-  <input type="text" id="siteInput" placeholder="Enter website">
-  <button id="addSite">Add</button>
-  <div id="blockedList"></div>
+  <div>
+    <input type="text" id="domain" placeholder="Enter domain (e.g. facebook.com)">
+    <button id="add">Add</button>
+  </div>
+  <div id="domainList"></div>
   <script src="popup.js"></script>
 </body>
 </html>

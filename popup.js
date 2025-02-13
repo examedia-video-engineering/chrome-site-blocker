@@ -1,60 +1,46 @@
-document.getElementById('addSite').addEventListener('click', addSite);
+function updateDomainList() {
+  chrome.storage.local.get(['blockedDomains'], function(result) {
+    const domainList = document.getElementById('domainList');
+    domainList.innerHTML = '';
+    result.blockedDomains?.forEach(domain => {
+      const div = document.createElement('div');
+      div.className = 'domain';
+      div.textContent = domain;
+      const removeButton = document.createElement('button');
+      removeButton.className = 'remove-btn';
+      removeButton.innerHTML = 'x';
+      removeButton.onclick = () => removeDomain(domain);
+      div.appendChild(removeButton);
+      domainList.appendChild(div);
+    });
+  });
+}
 
-// Initial load
-loadBlockedList();
-
-async function addSite() {
-  const siteInput = document.getElementById('siteInput');
-  const site = siteInput.value.trim().toLowerCase();
-  if (!site) return;
-
-  try {
-    const { blockedSites = [] } = await chrome.storage.local.get('blockedSites');
-    
-    if (!blockedSites.includes(site)) {
-      const newList = [...blockedSites, site];
-      await chrome.storage.local.set({ blockedSites: newList });
-      await loadBlockedList();
-      siteInput.value = ''; // Clear input only after successful add
-    }
-  } catch (error) {
-    console.error('Error adding site:', error);
+function addDomain() {
+  const input = document.getElementById('domain');
+  const domain = input.value.trim();
+  if (domain) {
+    chrome.storage.local.get(['blockedDomains'], function(result) {
+      const domains = result.blockedDomains || [];
+      if (!domains.includes(domain)) {
+        domains.push(domain);
+        chrome.storage.local.set({blockedDomains: domains}, updateDomainList);
+      }
+      input.value = '';
+    });
   }
 }
 
-async function loadBlockedList() {
-  try {
-    const { blockedSites = [] } = await chrome.storage.local.get('blockedSites');
-    const listDiv = document.getElementById('blockedList');
-    
-    // Clear existing list
-    listDiv.innerHTML = '<strong>Blocked Sites:</strong>';
-    
-    if (blockedSites.length > 0) {
-      const ul = document.createElement('ul');
-      blockedSites.forEach(site => {
-        const li = document.createElement('li');
-        li.textContent = site;
-        li.style.cursor = 'pointer';
-        li.addEventListener('click', () => removeSite(site));
-        ul.appendChild(li);
-      });
-      listDiv.appendChild(ul);
-    } else {
-      listDiv.innerHTML += '<p>No sites blocked yet</p>';
-    }
-  } catch (error) {
-    console.error('Error loading list:', error);
-  }
+function removeDomain(domain) {
+  chrome.storage.local.get(['blockedDomains'], function(result) {
+    const domains = result.blockedDomains.filter(d => d !== domain);
+    chrome.storage.local.set({blockedDomains: domains}, updateDomainList);
+  });
 }
 
-async function removeSite(site) {
-  try {
-    const { blockedSites = [] } = await chrome.storage.local.get('blockedSites');
-    const filtered = blockedSites.filter(s => s !== site);
-    await chrome.storage.local.set({ blockedSites: filtered });
-    await loadBlockedList(); // Refresh the list after removal
-  } catch (error) {
-    console.error('Error removing site:', error);
-  }
-}
+document.getElementById('add').onclick = addDomain;
+document.getElementById('domain').onkeypress = function(e) {
+  if (e.key === 'Enter') addDomain();
+};
+
+updateDomainList();
