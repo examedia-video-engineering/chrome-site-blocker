@@ -15,4 +15,4 @@ Enter websites to block (e.g.: "youtube.com")
 Click any listed site to remove it
 
 
-_Thanks to DeepSeek for writing it._
+_Thanks to Claude LLM for writing it._
